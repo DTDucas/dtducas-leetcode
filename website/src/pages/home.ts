@@ -184,58 +184,6 @@ class HomePage {
     `;
   }
 
-  private renderRecentProblems(): string {
-    const recentProblems = this.problems.slice(0, 3);
-
-    return `
-      <section class="${styles.recentProblems}">
-        <div class="container">
-          <div class="${styles.sectionHeader}">
-            <h2 class="${styles.title}">Recent Solutions</h2>
-            <p class="${styles.subtitle}">
-              Latest problems I've tackled with detailed explanations and optimized code
-            </p>
-          </div>
-
-          <div class="${styles.problemGrid}">
-            ${recentProblems.map(problem => this.renderProblemCard(problem)).join('')}
-          </div>
-        </div>
-      </section>
-    `;
-  }
-
-  private renderProblemCard(problem: Problem): string {
-    return `
-      <div class="${styles.problemCard}">
-        <div class="${styles.header}">
-          <span class="${styles.problemNumber}">Problem ${problem.id}</span>
-          <span class="difficulty ${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
-        </div>
-
-        <h3 class="${styles.title}">
-          <a href="${problem.blogLink || '#'}">${problem.title}</a>
-        </h3>
-
-        <div class="${styles.meta}">
-          <div class="${styles.tags}">
-            ${problem.tags?.map(tag => `<span class="${styles.tag}">${tag}</span>`).join('') || ''}
-          </div>
-        </div>
-
-        <div class="${styles.actions}">
-          <a href="${problem.solutionLink}" class="${styles.link} ${styles.code}" target="_blank">
-            View Code
-          </a>
-          ${problem.blogLink ? `
-            <a href="${problem.blogLink}" class="${styles.link} ${styles.blog}">
-              Read Solution
-            </a>
-          ` : ''}
-        </div>
-      </div>
-    `;
-  }
 
   private renderCTA(): string {
     return `

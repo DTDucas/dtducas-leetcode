@@ -1,5 +1,4 @@
 // Environment configuration
-const isDevelopment = import.meta.env.DEV;
 const isProduction = import.meta.env.PROD;
 
 export const config = {

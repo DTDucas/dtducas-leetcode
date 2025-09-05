@@ -25,6 +25,13 @@ jobs:
         node-version: '18'
         cache: 'npm'
 
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+        bundler-cache: true
+        working-directory: ./blog
+
     - name: Install Node.js dependencies
       run: npm ci
 
@@ -34,17 +41,15 @@ jobs:
     - name: Build TypeScript website
       run: npm run build
 
-    - name: Build Jekyll blog with Docker
+    - name: Build Jekyll blog
       run: |
-        docker build -t jekyll-blog .
-        docker run --rm -v ${{ github.workspace }}/blog:/app -v ${{ github.workspace }}/_site/blog:/app/_site jekyll-blog bundle exec jekyll build
+        cd blog
+        bundle exec jekyll build --destination ../_site/blog
 
     - name: Copy main site to _site
       run: |
         mkdir -p _site
         cp -r dist/* _site/
-        # Ensure blog directory exists in _site
-        mkdir -p _site/blog
 
     - name: Setup Pages
       if: github.ref == 'refs/heads/main'
@@ -61,7 +66,7 @@ jobs:
       id: deployment
       uses: actions/deploy-pages@v4
 
-  # Separate job for testing on PRs
+  # Test job for pull requests
   test:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
@@ -76,15 +81,6 @@ jobs:
         node-version: '18'
         cache: 'npm'
 
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Parse problems
-      run: node scripts/parse-problems.js
-
-    - name: Build TypeScript website
-      run: npm run build
-
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -92,15 +88,24 @@ jobs:
         bundler-cache: true
         working-directory: ./blog
 
-    - name: Test Jekyll build
+    - name: Install Node.js dependencies
+      run: npm ci
+
+    - name: Parse problems and generate data
+      run: node scripts/parse-problems.js
+
+    - name: Build TypeScript website
+      run: npm run build
+
+    - name: Build Jekyll blog
       run: |
         cd blog
-        bundle install
         bundle exec jekyll build --destination ../test-site/blog
 
-    - name: Run tests (if any)
+    - name: Run tests
       run: |
         echo "✅ Build test completed successfully"
         echo "📊 TypeScript build: OK"
-        echo "📝 Jekyll build: OK"
+        echo "📝 Jekyll blog build: OK"
         echo "🔍 Problem parsing: OK"
+        echo "🚀 All components built successfully without Docker!"
