@@ -70,13 +70,8 @@ class ProblemParser {
         }
       }
 
-      // Determine difficulty based on problem ID (rough estimation)
-      let difficulty = 'Medium';
-      if (problemId <= 100) {
-        difficulty = 'Easy';
-      } else if (problemId >= 200) {
-        difficulty = 'Hard';
-      }
+      // Determine difficulty based on actual LeetCode difficulty
+      const difficulty = this.getActualDifficulty(problemId);
 
       // Extract filename for solution link
       const fileName = path.basename(filePath);
@@ -227,16 +222,28 @@ class ProblemParser {
   }
 
   /**
-   * Update README.md with problems table
+   * Update README.md with problems table and statistics
    */
   updateReadme(problems) {
     const readmePath = path.join(__dirname, '../README.md');
 
     try {
       let readmeContent = fs.readFileSync(readmePath, 'utf8');
+      const stats = this.generateStats(problems);
 
-      // Generate table
-      let table = '\n## Problems Solved\n\n';
+      // Generate statistics section
+      let statsSection = '\n## 📊 Statistics\n\n';
+      statsSection += `**Total Problems Solved:** ${stats.total}\n\n`;
+      statsSection += '| Difficulty | Count | Percentage |\n';
+      statsSection += '|------------|-------|------------|\n';
+      statsSection += `| ![Easy](https://img.shields.io/badge/-Easy-green) | ${stats.easy} | ${((stats.easy / stats.total) * 100).toFixed(1)}% |\n`;
+      statsSection += `| ![Medium](https://img.shields.io/badge/-Medium-orange) | ${stats.medium} | ${((stats.medium / stats.total) * 100).toFixed(1)}% |\n`;
+      statsSection += `| ![Hard](https://img.shields.io/badge/-Hard-red) | ${stats.hard} | ${((stats.hard / stats.total) * 100).toFixed(1)}% |\n\n`;
+      statsSection += `**Blog Posts:** ${stats.withBlog} problems have detailed explanations\n`;
+      statsSection += `**Last Updated:** ${new Date().toLocaleDateString()}\n\n`;
+
+      // Generate problems table
+      let table = '## 📝 Problems Solved\n\n';
       table += '| # | Title | Difficulty | Solution | Blog Post |\n';
       table += '|---|-------|------------|----------|----------|\n';
 
@@ -250,18 +257,59 @@ class ProblemParser {
 
       table += '\n---\n';
 
-      // Replace or append table
-      const tableRegex = /## Problems Solved[\s\S]*?(?=\n---\n|\n##|\n#|$)/;
-      if (tableRegex.test(readmeContent)) {
-        readmeContent = readmeContent.replace(tableRegex, table.trim());
+      // Combine stats and table
+      const fullContent = statsSection + table;
+
+      // Replace or append content
+      const contentRegex = /## 📊 Statistics[\s\S]*?(?=\n---\n|\n##|\n#|$)|## Problems Solved[\s\S]*?(?=\n---\n|\n##|\n#|$)/;
+      if (contentRegex.test(readmeContent)) {
+        readmeContent = readmeContent.replace(contentRegex, fullContent.trim());
       } else {
-        readmeContent += '\n' + table;
+        readmeContent += '\n' + fullContent;
       }
 
       fs.writeFileSync(readmePath, readmeContent);
     } catch (error) {
       console.error('Error updating README:', error);
     }
+  }
+
+  /**
+   * Get actual difficulty based on LeetCode problem ID
+   */
+  getActualDifficulty(problemId) {
+    // Actual LeetCode difficulty mapping
+    const difficultyMap = {
+      1: 'Easy',      // Two Sum
+      2: 'Medium',    // Add Two Numbers
+      3: 'Medium',    // Longest Substring Without Repeating Characters
+      4: 'Hard',      // Median of Two Sorted Arrays
+      5: 'Medium',    // Longest Palindromic Substring
+      6: 'Medium',    // Zigzag Conversion
+      7: 'Medium',    // Reverse Integer
+      8: 'Medium',    // String to Integer (atoi)
+      9: 'Easy',      // Palindrome Number
+      10: 'Hard',     // Regular Expression Matching
+      23: 'Hard',     // Merge k Sorted Lists
+      25: 'Hard',     // Reverse Nodes in k-Group
+      30: 'Hard',     // Substring with Concatenation of All Words
+      32: 'Hard',     // Longest Valid Parentheses
+      37: 'Hard',     // Sudoku Solver
+      41: 'Hard',     // First Missing Positive
+      42: 'Hard',     // Trapping Rain Water
+      44: 'Hard',     // Wildcard Matching
+      51: 'Hard',     // N-Queens
+      52: 'Hard',     // N-Queens II
+      60: 'Hard',     // Permutation Sequence
+      65: 'Hard',     // Valid Number
+      68: 'Hard',     // Text Justification
+      76: 'Hard',     // Minimum Window Substring
+      84: 'Hard',     // Largest Rectangle in Histogram
+      85: 'Hard',     // Maximal Rectangle
+      1001: 'Medium'  // Find Common Characters
+    };
+
+    return difficultyMap[problemId] || 'Medium'; // Default to Medium if not found
   }
 
   /**
