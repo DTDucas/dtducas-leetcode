@@ -4,7 +4,7 @@ const path = require('path');
 class ProblemParser {
   constructor() {
     this.problemsDir = path.join(__dirname, '../problems');
-    this.outputDir = path.join(__dirname, '../website/src/data');
+    this.outputDir = path.join(__dirname, '../website/public/data');
     this.blogDir = path.join(__dirname, '../blog/_posts');
 
     // Ensure output directory exists
@@ -261,7 +261,7 @@ class ProblemParser {
       const fullContent = statsSection + table;
 
       // Replace or append content
-      const contentRegex = /## 📊 Statistics[\s\S]*?(?=\n---\n|\n##|\n#|$)|## Problems Solved[\s\S]*?(?=\n---\n|\n##|\n#|$)/;
+      const contentRegex = /## 📊 Statistics[\s\S]*?(?=\n---\n|\n##|\n#|$)/;
       if (contentRegex.test(readmeContent)) {
         readmeContent = readmeContent.replace(contentRegex, fullContent.trim());
       } else {

@@ -27,8 +27,8 @@ export const config = {
 
   // API endpoints
   api: {
-    problems: '/src/data/problems.json',
-    stats: '/src/data/stats.json'
+    problems: '/dtducas-leetcode/data/problems.json',
+    stats: '/dtducas-leetcode/data/stats.json'
   },
 
   // Site metadata
