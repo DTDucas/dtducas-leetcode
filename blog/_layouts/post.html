@@ -1,0 +1,339 @@
+---
+layout: default
+---
+
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title | escape }}</h1>
+
+    <div class="post-meta">
+      <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        {{ page.date | date: date_format }}
+      </time>
+
+      {%- if page.problem_id -%}
+        <div class="problem-info">
+          <span class="problem-number">Problem {{ page.problem_id }}</span>
+          {%- if page.difficulty -%}
+            <span class="difficulty {{ page.difficulty | downcase }}">{{ page.difficulty }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if page.solution_link -%}
+      <div class="post-actions">
+        <a href="{{ site.github_repo }}/blob/main/{{ page.solution_link }}" class="btn btn-code" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16,18 22,12 16,6"></polyline>
+            <polyline points="8,6 2,12 8,18"></polyline>
+          </svg>
+          View Source Code
+        </a>
+
+        <a href="{{ site.leetcode_profile }}" class="btn btn-leetcode" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0z"/>
+          </svg>
+          Try on LeetCode
+        </a>
+      </div>
+    {%- endif -%}
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {%- if page.tags.size > 0 -%}
+    <div class="post-tags">
+      <h4>Tags:</h4>
+      <div class="tag-list">
+        {%- for tag in page.tags -%}
+          <span class="tag">{{ tag }}</span>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <footer class="post-footer">
+    <div class="post-navigation">
+      {%- if page.previous.url -%}
+        <a class="nav-link prev" href="{{ page.previous.url | relative_url }}">
+          <span class="nav-label">← Previous</span>
+          <span class="nav-title">{{ page.previous.title }}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if page.next.url -%}
+        <a class="nav-link next" href="{{ page.next.url | relative_url }}">
+          <span class="nav-label">Next →</span>
+          <span class="nav-title">{{ page.next.title }}</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="back-to-main">
+      <a href="{{ site.main_site }}" class="btn btn-primary">
+        ← Back to Main Site
+      </a>
+    </div>
+  </footer>
+</article>
+
+<style>
+.post {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 4rem 2rem;
+  background: #0f172a;
+  color: white;
+  margin: -2rem -2rem 3rem -2rem;
+  border-radius: 0 0 12px 12px;
+}
+
+.post-header .post-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.post-header .post-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.post-header .post-date {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.post-header .problem-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-header .problem-number {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.post-header .difficulty {
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.post-header .difficulty.easy {
+  background: var(--color-success);
+  color: white;
+}
+
+.post-header .difficulty.medium {
+  background: var(--color-medium);
+  color: white;
+}
+
+.post-header .difficulty.hard {
+  background: var(--color-hard);
+  color: white;
+}
+
+.post-header .post-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.post-header .btn-code {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-primary);
+}
+
+.post-header .btn-code:hover {
+  background: var(--color-success);
+  color: white;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.post-header .btn-leetcode {
+  background: #ffa116;
+  color: white;
+}
+
+.post-header .btn-leetcode:hover {
+  background: #ff9500;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.post-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.post-content h2 {
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+
+.post-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+
+.post-content ul, .post-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.post-content li {
+  margin-bottom: 0.5rem;
+  color: var(--color-text-secondary);
+}
+
+.post-content blockquote {
+  border-left: 4px solid var(--color-primary);
+  background: var(--color-background-secondary);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.post-content blockquote p {
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+.post-tags {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.post-tags h4 {
+  margin-bottom: 1rem;
+  color: var(--color-text-primary);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-list .tag {
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+}
+
+.post-navigation {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  border-color: var(--color-primary);
+  text-decoration: none;
+}
+
+.nav-link.next {
+  text-align: right;
+}
+
+.nav-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nav-title {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.back-to-main {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.back-to-main .btn {
+  background: var(--color-primary);
+  color: white;
+}
+
+.back-to-main .btn:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .post {
+    padding: 1rem;
+  }
+
+  .post-header {
+    margin: -1rem -1rem 2rem -1rem;
+    padding: 3rem 1rem;
+  }
+
+  .post-navigation {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-link.next {
+    text-align: left;
+  }
+
+  .post-header .post-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>

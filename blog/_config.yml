@@ -1,0 +1,100 @@
+# Site settings
+title: DTDucas LeetCode Blog
+email: baymax.contact@gmail.com
+description: >-
+  Detailed explanations and solutions for LeetCode problems.
+  Learn algorithms, data structures, and problem-solving techniques
+  through clean, optimized code examples.
+
+baseurl: "/dtducas-leetcode/blog"
+url: "https://dtducas.github.io"
+
+# Docker development settings
+host: 0.0.0.0
+port: 4000
+livereload: true
+incremental: true
+
+author:
+  name: Tran Quang Duong (DTDucas)
+  email: baymax.contact@gmail.com
+  github: DTDucas
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /:title/
+
+# Pagination
+paginate: 10
+paginate_path: "/page:num/"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Include
+include:
+  - _pages
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "DTDucas"
+      show_excerpts: true
+  - scope:
+      path: "_pages"
+      type: "pages"
+    values:
+      layout: "page"
+
+# Custom variables
+leetcode_profile: "https://leetcode.com/dtducas"
+github_repo: "https://github.com/DTDucas/dtducas-leetcode"
+main_site: "https://dtducas.github.io/dtducas-leetcode"
+
+# SEO
+twitter:
+  username: dtducas
+  card: summary_large_image
+
+social:
+  name: Tran Quang Duong
+  links:
+    - https://github.com/DTDucas
+    - https://linkedin.com/in/dtducas
+
+# Analytics (optional)
+# google_analytics: UA-XXXXXXXX-X

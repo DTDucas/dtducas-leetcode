@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  @include transition-smooth;
+}
+
+// Dark mode
+body.dark {
+  --color-background: var(--color-dark-background);
+  --color-background-secondary: var(--color-dark-background-secondary);
+  --color-surface: var(--color-dark-surface);
+  --color-border: var(--color-dark-border);
+  --color-text-primary: var(--color-dark-text-primary);
+  --color-text-secondary: var(--color-dark-text-secondary);
+  --color-text-muted: var(--color-dark-text-muted);
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: $spacing-4;
+}
+
+h1 {
+  font-size: $font-size-4xl;
+}
+
+h2 {
+  font-size: $font-size-3xl;
+}
+
+h3 {
+  font-size: $font-size-2xl;
+}
+
+h4 {
+  font-size: $font-size-xl;
+}
+
+h5 {
+  font-size: $font-size-lg;
+}
+
+h6 {
+  font-size: $font-size-base;
+}
+
+p {
+  margin-bottom: $spacing-4;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  @include transition-smooth;
+
+  &:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+  }
+}
+
+code {
+  font-family: $font-family-mono;
+  font-size: 0.9em;
+  background-color: var(--color-background-secondary);
+  padding: $spacing-1 $spacing-2;
+  border-radius: $border-radius-sm;
+  border: 1px solid var(--color-border);
+}
+
+pre {
+  font-family: $font-family-mono;
+  background-color: var(--color-background-secondary);
+  padding: $spacing-4;
+  border-radius: $border-radius-lg;
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+  margin-bottom: $spacing-4;
+
+  code {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+}
+
+// Utility classes
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-4;
+
+  @media (min-width: $breakpoint-md) {
+    padding: 0 $spacing-6;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+.grid {
+  display: grid;
+}
+
+.hidden {
+  display: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Difficulty badges
+.difficulty {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $border-radius-xl;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  @include transition-smooth;
+
+  &.easy {
+    background: var(--color-success-50);
+    color: var(--color-success-dark);
+    border: 1px solid var(--color-success-100);
+
+    &:hover {
+      background: var(--color-success-100);
+      transform: scale(1.05);
+    }
+  }
+
+  &.medium {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--color-medium);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+
+    &:hover {
+      background-color: rgba(245, 158, 11, 0.2);
+      transform: scale(1.05);
+    }
+  }
+
+  &.hard {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--color-hard);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+
+    &:hover {
+      background-color: rgba(239, 68, 68, 0.2);
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Loading animation
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  animation: spin 1s linear infinite;
+}
+
+// Fade in animation
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}

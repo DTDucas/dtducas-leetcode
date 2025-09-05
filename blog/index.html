@@ -1,0 +1,98 @@
+---
+layout: default
+title: DTDucas LeetCode Blog
+description: Detailed explanations and solutions for LeetCode problems with clean, optimized code examples.
+---
+
+<div class="hero-section">
+  <div class="wrapper">
+    <h1 class="hero-title">LeetCode Solutions & Explanations</h1>
+    <p class="hero-subtitle">
+      Deep dive into algorithmic problem-solving with detailed explanations,
+      multiple approaches, and clean C# implementations.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-number">{{ site.posts.size }}</span>
+        <span class="stat-label">Blog Posts</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">{{ site.posts | where: 'difficulty', 'Easy' | size }}</span>
+        <span class="stat-label">Easy</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">{{ site.posts | where: 'difficulty', 'Medium' | size }}</span>
+        <span class="stat-label">Medium</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">{{ site.posts | where: 'difficulty', 'Hard' | size }}</span>
+        <span class="stat-label">Hard</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="{{ site.main_site }}" class="btn btn-primary">Main Site</a>
+      <a href="{{ site.github_repo }}" class="btn btn-secondary" target="_blank">View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="posts-section">
+  <div class="wrapper">
+    <h2 class="section-title">Recent Posts</h2>
+
+    {%- if site.posts.size > 0 -%}
+      <div class="post-list">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        {%- for post in site.posts -%}
+          <article class="post-card">
+            <div class="post-meta">
+              <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
+                {{ post.date | date: date_format }}
+              </time>
+              {%- if post.problem_id -%}
+                <div class="problem-info">
+                  <span class="problem-number">Problem {{ post.problem_id }}</span>
+                  {%- if post.difficulty -%}
+                    <span class="difficulty {{ post.difficulty | downcase }}">
+                      {{ post.difficulty }}
+                    </span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+
+            <h3 class="post-title">
+              <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+            </h3>
+
+            {%- if post.excerpt -%}
+              <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
+            {%- endif -%}
+
+            {%- if post.tags.size > 0 -%}
+              <div class="post-tags">
+                {%- for tag in post.tags limit: 4 -%}
+                  <span class="tag">{{ tag }}</span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            <div class="post-actions">
+              <a href="{{ post.url | relative_url }}" class="read-more">Read More →</a>
+              {%- if post.solution_link -%}
+                <a href="{{ site.github_repo }}/blob/main/{{ post.solution_link }}"
+                   class="view-code" target="_blank" rel="noopener">View Code</a>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="text-center">
+        <h3>No blog posts yet</h3>
+        <p>Check back soon for detailed LeetCode solutions!</p>
+        <a href="{{ site.main_site }}" class="btn btn-primary">Visit Main Site</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,106 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install Node.js dependencies
+      run: npm ci
+
+    - name: Parse problems and generate data
+      run: node scripts/parse-problems.js
+
+    - name: Build TypeScript website
+      run: npm run build
+
+    - name: Build Jekyll blog with Docker
+      run: |
+        docker build -t jekyll-blog .
+        docker run --rm -v ${{ github.workspace }}/blog:/app -v ${{ github.workspace }}/_site/blog:/app/_site jekyll-blog bundle exec jekyll build
+
+    - name: Copy main site to _site
+      run: |
+        mkdir -p _site
+        cp -r dist/* _site/
+        # Ensure blog directory exists in _site
+        mkdir -p _site/blog
+
+    - name: Setup Pages
+      if: github.ref == 'refs/heads/main'
+      uses: actions/configure-pages@v4
+
+    - name: Upload artifact
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./_site
+
+    - name: Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/main'
+      id: deployment
+      uses: actions/deploy-pages@v4
+
+  # Separate job for testing on PRs
+  test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Parse problems
+      run: node scripts/parse-problems.js
+
+    - name: Build TypeScript website
+      run: npm run build
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+        bundler-cache: true
+        working-directory: ./blog
+
+    - name: Test Jekyll build
+      run: |
+        cd blog
+        bundle install
+        bundle exec jekyll build --destination ../test-site/blog
+
+    - name: Run tests (if any)
+      run: |
+        echo "✅ Build test completed successfully"
+        echo "📊 TypeScript build: OK"
+        echo "📝 Jekyll build: OK"
+        echo "🔍 Problem parsing: OK"
