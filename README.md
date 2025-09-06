@@ -45,6 +45,6 @@ It contains solutions mainly in **C#** (preferred) and occasionally **Python**, 
 | 8 | String to Integer (atoi) | ![Medium](https://img.shields.io/badge/-Medium-orange) | [C#](problems/08.cs) | - |
 | 9 | Palindrome Number | ![Easy](https://img.shields.io/badge/-Easy-green) | [C#](problems/09.cs) | - |
 | 10 | Regular Expression Matching | ![Hard](https://img.shields.io/badge/-Hard-red) | [C#](problems/10.cs) | - |
-| 11 | Problem 11 | ![Medium](https://img.shields.io/badge/-Medium-orange) | [C#](problems/11.cs) | - |
+| 11 | Container With Most Water | ![Medium](https://img.shields.io/badge/-Medium-orange) | [C#](problems/11.cs) | - |
 
 ---
