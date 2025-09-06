@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
+      contents: write
       pages: write
       id-token: write
 
@@ -37,6 +37,14 @@ jobs:
 
     - name: Parse problems and generate data
       run: node scripts/parse-problems.js
+
+    - name: Commit README and data changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add README.md website/public/data/
+        git diff --staged --quiet || git commit -m "Auto-update README and data files [skip ci]"
+        git push
 
     - name: Build TypeScript website
       run: npm run build
