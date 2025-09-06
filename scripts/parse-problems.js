@@ -260,8 +260,8 @@ class ProblemParser {
       // Combine stats and table
       const fullContent = statsSection + table;
 
-      // Replace or append content
-      const contentRegex = /## 📊 Statistics[\s\S]*?(?=\n---\n|\n##|\n#|$)/;
+      // Replace or append content - match from Statistics to end of file
+      const contentRegex = /## 📊 Statistics[\s\S]*$/;
       if (contentRegex.test(readmeContent)) {
         readmeContent = readmeContent.replace(contentRegex, fullContent.trim());
       } else {
