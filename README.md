@@ -20,13 +20,13 @@ It contains solutions mainly in **C#** (preferred) and occasionally **Python**, 
 
 ## 📊 Statistics
 
-**Total Problems Solved:** 10
+**Total Problems Solved:** 11
 
 | Difficulty | Count | Percentage |
 |------------|-------|------------|
-| ![Easy](https://img.shields.io/badge/-Easy-green) | 2 | 20.0% |
-| ![Medium](https://img.shields.io/badge/-Medium-orange) | 6 | 60.0% |
-| ![Hard](https://img.shields.io/badge/-Hard-red) | 2 | 20.0% |
+| ![Easy](https://img.shields.io/badge/-Easy-green) | 2 | 18.2% |
+| ![Medium](https://img.shields.io/badge/-Medium-orange) | 7 | 63.6% |
+| ![Hard](https://img.shields.io/badge/-Hard-red) | 2 | 18.2% |
 
 **Blog Posts:** 1 problems have detailed explanations
 **Last Updated:** 9/6/2025
@@ -45,5 +45,6 @@ It contains solutions mainly in **C#** (preferred) and occasionally **Python**, 
 | 8 | String to Integer (atoi) | ![Medium](https://img.shields.io/badge/-Medium-orange) | [C#](problems/08.cs) | - |
 | 9 | Palindrome Number | ![Easy](https://img.shields.io/badge/-Easy-green) | [C#](problems/09.cs) | - |
 | 10 | Regular Expression Matching | ![Hard](https://img.shields.io/badge/-Hard-red) | [C#](problems/10.cs) | - |
+| 11 | Problem 11 | ![Medium](https://img.shields.io/badge/-Medium-orange) | [C#](problems/11.cs) | - |
 
 ---
