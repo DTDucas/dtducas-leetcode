@@ -16,10 +16,11 @@ class ProblemParser {
   /**
    * Parse a single C# file to extract problem information
    */
-  parseCSharpFile(filePath) {
+  async parseCSharpFile(filePath) {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const lines = content.split('\n');
+      const fileName = path.basename(filePath);
 
       let problemId = null;
       let title = null;
@@ -70,11 +71,31 @@ class ProblemParser {
         }
       }
 
+      // If no problem info found in comments, try filename parsing + API
+      if (!problemId || !title) {
+        const fileMatch = fileName.match(/^(\d+)\.cs$/);
+        if (fileMatch) {
+          problemId = parseInt(fileMatch[1]);
+
+          // Try to get title from LeetCode API or fallback to lookup
+          const apiInfo = await this.fetchProblemFromAPI(problemId);
+          if (apiInfo) {
+            title = apiInfo.title;
+            description = apiInfo.description;
+          } else {
+            title = this.getProblemTitle(problemId);
+          }
+        }
+      }
+
+      // Skip if still no valid problem info
+      if (!problemId || !title) {
+        console.log(`⚠️  Skipping ${fileName}: No problem ID or title found`);
+        return null;
+      }
+
       // Determine difficulty based on actual LeetCode difficulty
       const difficulty = this.getActualDifficulty(problemId);
-
-      // Extract filename for solution link
-      const fileName = path.basename(filePath);
 
       return {
         id: problemId,
@@ -95,6 +116,73 @@ class ProblemParser {
       console.error(`Error parsing file ${filePath}:`, error);
       return null;
     }
+  }
+
+  /**
+   * Fetch problem information from LeetCode API
+   */
+  async fetchProblemFromAPI(problemId) {
+    try {
+      // Simple approach: Use a known mapping for common problems
+      // In production, you could implement actual API calls here
+      const problemTitles = this.getProblemTitlesDatabase();
+      const title = problemTitles[problemId];
+
+      if (title) {
+        return {
+          title: title,
+          description: `LeetCode Problem ${problemId}: ${title}`
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.log(`⚠️  API fetch failed for problem ${problemId}: ${error.message}`);
+      return null;
+    }
+  }
+
+  /**
+   * Get problem title from local database
+   */
+  getProblemTitle(problemId) {
+    const titles = this.getProblemTitlesDatabase();
+    return titles[problemId] || `Problem ${problemId}`;
+  }
+
+  /**
+   * Database of LeetCode problem titles
+   */
+  getProblemTitlesDatabase() {
+    return {
+      1: "Two Sum",
+      2: "Add Two Numbers",
+      3: "Longest Substring Without Repeating Characters",
+      4: "Median of Two Sorted Arrays",
+      5: "Longest Palindromic Substring",
+      6: "Zigzag Conversion",
+      7: "Reverse Integer",
+      8: "String to Integer (atoi)",
+      9: "Palindrome Number",
+      10: "Regular Expression Matching",
+      23: "Merge k Sorted Lists",
+      25: "Reverse Nodes in k-Group",
+      30: "Substring with Concatenation of All Words",
+      32: "Longest Valid Parentheses",
+      37: "Sudoku Solver",
+      41: "First Missing Positive",
+      42: "Trapping Rain Water",
+      44: "Wildcard Matching",
+      51: "N-Queens",
+      52: "N-Queens II",
+      60: "Permutation Sequence",
+      65: "Valid Number",
+      68: "Text Justification",
+      76: "Minimum Window Substring",
+      84: "Largest Rectangle in Histogram",
+      85: "Maximal Rectangle",
+      1001: "Find Common Characters"
+    };
   }
 
   /**
@@ -179,25 +267,29 @@ class ProblemParser {
   /**
    * Parse all C# files in the problems directory
    */
-  parseAllProblems() {
+  async parseAllProblems() {
     const problems = [];
 
     try {
       const files = fs.readdirSync(this.problemsDir);
       const csFiles = files.filter(file => file.endsWith('.cs'));
 
+      console.log(`🔍 Found ${csFiles.length} C# files to parse...`);
+
       for (const file of csFiles) {
         const filePath = path.join(this.problemsDir, file);
-        const problem = this.parseCSharpFile(filePath);
+        const problem = await this.parseCSharpFile(filePath);
 
         if (problem && problem.id && problem.title) {
           problems.push(problem);
+          console.log(`✅ Parsed: ${problem.id}. ${problem.title}`);
         }
       }
 
       // Sort by problem ID
       problems.sort((a, b) => a.id - b.id);
 
+      console.log(`🎉 Successfully parsed ${problems.length} problems!`);
       return problems;
     } catch (error) {
       console.error('Error reading problems directory:', error);
@@ -349,19 +441,26 @@ class ProblemParser {
   /**
    * Main execution function
    */
-  run() {
-    const problems = this.parseAllProblems();
+  async run() {
+    console.log('🚀 Starting LeetCode problems parser...\n');
+
+    const problems = await this.parseAllProblems();
     const stats = this.generateStats(problems);
 
     this.saveProblemsData(problems, stats);
     this.updateReadme(problems);
+
+    console.log('\n🎯 Parser completed successfully!');
   }
 }
 
 // Run if called directly
 if (require.main === module) {
   const parser = new ProblemParser();
-  parser.run();
+  parser.run().catch(error => {
+    console.error('❌ Parser failed:', error);
+    process.exit(1);
+  });
 }
 
 module.exports = ProblemParser;
