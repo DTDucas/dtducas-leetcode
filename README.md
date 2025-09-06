@@ -20,13 +20,13 @@ It contains solutions mainly in **C#** (preferred) and occasionally **Python**, 
 
 ## 📊 Statistics
 
-**Total Problems Solved:** 11
+**Total Problems Solved:** 12
 
 | Difficulty | Count | Percentage |
 |------------|-------|------------|
-| ![Easy](https://img.shields.io/badge/-Easy-green) | 2 | 18.2% |
-| ![Medium](https://img.shields.io/badge/-Medium-orange) | 7 | 63.6% |
-| ![Hard](https://img.shields.io/badge/-Hard-red) | 2 | 18.2% |
+| ![Easy](https://img.shields.io/badge/-Easy-green) | 2 | 16.7% |
+| ![Medium](https://img.shields.io/badge/-Medium-orange) | 7 | 58.3% |
+| ![Hard](https://img.shields.io/badge/-Hard-red) | 3 | 25.0% |
 
 **Blog Posts:** 1 problems have detailed explanations
 **Last Updated:** 9/6/2025
@@ -46,5 +46,6 @@ It contains solutions mainly in **C#** (preferred) and occasionally **Python**, 
 | 9 | Palindrome Number | ![Easy](https://img.shields.io/badge/-Easy-green) | [C#](problems/09.cs) | - |
 | 10 | Regular Expression Matching | ![Hard](https://img.shields.io/badge/-Hard-red) | [C#](problems/10.cs) | - |
 | 11 | Container With Most Water | ![Medium](https://img.shields.io/badge/-Medium-orange) | [C#](problems/11.cs) | - |
+| 23 | Merge k Sorted Lists | ![Hard](https://img.shields.io/badge/-Hard-red) | [C#](problems/23.cs) | - |
 
 ---
