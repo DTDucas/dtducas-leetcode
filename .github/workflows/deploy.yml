@@ -42,7 +42,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add README.md website/public/data/
+        git add README.md
         git diff --staged --quiet || git commit -m "Auto-update README and data files [skip ci]"
         git push
 
