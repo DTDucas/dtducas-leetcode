@@ -118,11 +118,11 @@ blog/.sass-cache/
 blog/.jekyll-cache/
 blog/.jekyll-metadata
 
-# Auto-generated favicons
-blog/assets/android-chrome-*
-blog/assets/apple-touch-icon.png
-blog/assets/favicon-*.png
-blog/assets/favicon.ico
+# # Auto-generated favicons
+# blog/assets/android-chrome-*
+# blog/assets/apple-touch-icon.png
+# blog/assets/favicon-*.png
+# blog/assets/favicon.ico
 
 # Build artifacts
 *.tgz
