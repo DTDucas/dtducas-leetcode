@@ -20,16 +20,16 @@ It contains solutions mainly in **C#** (preferred) and occasionally **Python**, 
 
 ## 📊 Statistics
 
-**Total Problems Solved:** 13
+**Total Problems Solved:** 14
 
 | Difficulty | Count | Percentage |
 |------------|-------|------------|
-| ![Easy](https://img.shields.io/badge/-Easy-green) | 2 | 15.4% |
-| ![Medium](https://img.shields.io/badge/-Medium-orange) | 7 | 53.8% |
-| ![Hard](https://img.shields.io/badge/-Hard-red) | 4 | 30.8% |
+| ![Easy](https://img.shields.io/badge/-Easy-green) | 2 | 14.3% |
+| ![Medium](https://img.shields.io/badge/-Medium-orange) | 7 | 50.0% |
+| ![Hard](https://img.shields.io/badge/-Hard-red) | 5 | 35.7% |
 
 **Blog Posts:** 1 problems have detailed explanations
-**Last Updated:** 9/7/2025
+**Last Updated:** 9/10/2025
 
 ## 📝 Problems Solved
 
@@ -48,5 +48,6 @@ It contains solutions mainly in **C#** (preferred) and occasionally **Python**, 
 | 11 | Container With Most Water | ![Medium](https://img.shields.io/badge/-Medium-orange) | [C#](problems/11.cs) | - |
 | 23 | Merge k Sorted Lists | ![Hard](https://img.shields.io/badge/-Hard-red) | [C#](problems/23.cs) | - |
 | 25 | Reverse Nodes in k-Group | ![Hard](https://img.shields.io/badge/-Hard-red) | [C#](problems/25.cs) | - |
+| 30 | Substring with Concatenation of All Words | ![Hard](https://img.shields.io/badge/-Hard-red) | [C#](problems/30.cs) | - |
 
 ---
